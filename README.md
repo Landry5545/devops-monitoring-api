@@ -98,4 +98,14 @@ Without this, the container will respond to `localhost` requests but be
 unreachable from other hosts on the network, since Docker's forwarded 
 traffic passes through the `FORWARD` chain rather than `INPUT`.
 
+## 🗺️ Request Flow Diagram
+
+```mermaid
+graph LR
+    A[Host Browser<br/>localhost:8001] -->|NAT Port Forward| B[client-vm2<br/>10.10.10.20:8000]
+    C[server-vm<br/>10.10.10.10] -->|labnet internal network| B
+    B -->|DOCKER-USER: ACCEPT tcp dpt 8000| D[Docker FORWARD chain]
+    D --> E[Container 172.17.0.3:8000<br/>FastAPI + psutil]
+```
+
 💡 *Developed as a portfolio showcase combining systems engineering and software development.*
