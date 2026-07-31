@@ -84,4 +84,18 @@ FastAPI auto-generates interactive docs, testable directly from the browser:
 - [ ] Implement token-based authentication for secure monitoring.
 
 ---
+
+---
+
+## 🔍 Deployment Note
+When deploying this container on a host with custom iptables rules (e.g. a 
+`DOCKER-USER` chain used to restrict Docker's default traffic bypass of UFW), 
+remember to explicitly allow the container's port:
+
+    sudo iptables -I DOCKER-USER -p tcp --dport 8000 -j ACCEPT
+
+Without this, the container will respond to `localhost` requests but be 
+unreachable from other hosts on the network, since Docker's forwarded 
+traffic passes through the `FORWARD` chain rather than `INPUT`.
+
 💡 *Developed as a portfolio showcase combining systems engineering and software development.*
